@@ -1,34 +1,37 @@
-const API = 'https://youtube-v31.p.rapidapi.com/search?channelId=UCEloMqBOJ162UsogPPvR9Nw&part=snippet%2Cid&order=date&maxResults=9';
+const API_KEY = 'AIzaSyDx-Av-cSTDvpcwpn4UTMwMcnqj_ltBTKI'; // Tu clave API
+const CHANNEL_ID = 'UCEloMqBOJ162UsogPPvR9Nw'; // ID del canal
+const API_URL = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&maxResults=9&order=date&key=${API_KEY}`;
 
 const content = document.getElementById('content');
 
-const options = {
-  method: 'GET',
-  headers: {
-    'X-RapidAPI-Host': 'youtube-v31.p.rapidapi.com',
-    'X-RapidAPI-Key': 'c68edbdba9mshc3cb6eb8038f3b2p1f444ajsna5de19fe1256' // Reemplaza con tu clave si es necesario
-  }
-};
-
 async function fetchData(urlApi) {
   try {
-    const response = await fetch(urlApi, options);
+    const response = await fetch(urlApi);
+    if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error('Error al obtener datos de la API:', error);
+    console.error('Error al obtener datos de la API:', error.message);
+    content.innerHTML = `<p class="text-red-500">Error: ${error.message}</p>`;
+    return null;
   }
 }
 
 (async () => {
   try {
-    const videos = await fetchData(API);
+    const videos = await fetchData(API_URL);
+    if (!videos || !videos.items) {
+      content.innerHTML = `<p class="text-red-500">No se pudieron cargar los videos.</p>`;
+      return;
+    }
     let view = `
-    ${videos.items.map(video => `
+    ${videos.items
+      .map(
+        video => `
       <a href="https://www.youtube.com/watch?v=${video.id.videoId}" target="_blank" class="group relative">
         <div
           class="w-full bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:aspect-none">
-          <img src="${video.snippet.thumbnails.high.url}" alt="${video.snippet.description}" class="w-full">
+          <img src="${video.snippet.thumbnails.high.url}" alt="${video.snippet.title}" class="w-full">
         </div>
         <div class="mt-4 flex justify-between">
           <h3 class="text-sm text-gray-700">
@@ -36,7 +39,9 @@ async function fetchData(urlApi) {
           </h3>
         </div>
       </a>
-    `).slice(0, 4).join('')}
+    `
+      )
+      .join('')}
     `;
     content.innerHTML = view;
   } catch (error) {

@@ -1,34 +1,26 @@
-const API_BASE = 'https://youtube-v31.p.rapidapi.com';
+const API_KEY = 'AIzaSyDx-Av-cSTDvpcwpn4UTMwMcnqj_ltBTKI'; // Reemplaza con tu clave API
 const CHANNEL_ID = 'UCEloMqBOJ162UsogPPvR9Nw'; // ID del canal
-
-const options = {
-  method: 'GET',
-  headers: {
-    'X-RapidAPI-Host': 'youtube-v31.p.rapidapi.com',
-    'X-RapidAPI-Key': 'c68edbdba9mshc3cb6eb8038f3b2p1f444ajsna5de19fe1256', // Reemplaza con tu clave API
-  },
-};
+const API_BASE = 'https://www.googleapis.com/youtube/v3';
 
 async function fetchData(endpoint) {
   try {
-    const response = await fetch(endpoint, options);
+    const response = await fetch(endpoint);
     if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error('Error al obtener datos:', error);
+    console.error('Error al obtener datos:', error.message);
   }
 }
 
 async function loadFirstVideos(containerId) {
-  const endpoint = `${API_BASE}/search?channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=50`;
+  const endpoint = `${API_BASE}/search?part=snippet&channelId=${CHANNEL_ID}&maxResults=50&order=date&key=${API_KEY}`;
   const data = await fetchData(endpoint);
 
   if (data && data.items) {
     // Ordenamos los videos por fecha de publicación en orden ascendente (del más antiguo al más reciente)
     const sortedVideos = data.items.sort(
-      (a, b) =>
-        new Date(a.snippet.publishedAt) - new Date(b.snippet.publishedAt)
+      (a, b) => new Date(a.snippet.publishedAt) - new Date(b.snippet.publishedAt)
     );
 
     // Seleccionamos los primeros 6 videos
@@ -57,19 +49,6 @@ async function loadFirstVideos(containerId) {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  // MOST POPULAR VIDEOS
-  const popularEndpoint = `${API_BASE}/search?channelId=${CHANNEL_ID}&part=snippet,id&order=viewCount&maxResults=6`;
-  loadVideos(popularEndpoint, 'popular-container', 'No se encontraron videos populares.');
-
-  // OUR FIRST VIDEOS
-  loadFirstVideos('first-videos-container');
-
-  // LATEST VIDEOS
-  const latestVideosEndpoint = `${API_BASE}/search?channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=6`;
-  loadVideos(latestVideosEndpoint, 'latest-container', 'No se encontraron videos recientes.');
-});
-
 async function loadVideos(endpoint, containerId, messageOnError) {
   const data = await fetchData(endpoint);
   const videoContainer = document.getElementById(containerId);
@@ -93,3 +72,16 @@ async function loadVideos(endpoint, containerId, messageOnError) {
     console.warn(messageOnError);
   }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  // MOST POPULAR VIDEOS
+  const popularEndpoint = `${API_BASE}/search?part=snippet&channelId=${CHANNEL_ID}&maxResults=6&order=viewCount&key=${API_KEY}`;
+  loadVideos(popularEndpoint, 'popular-container', 'No se encontraron videos populares.');
+
+  // OUR FIRST VIDEOS
+  loadFirstVideos('first-videos-container');
+
+  // LATEST VIDEOS
+  const latestVideosEndpoint = `${API_BASE}/search?part=snippet&channelId=${CHANNEL_ID}&maxResults=6&order=date&key=${API_KEY}`;
+  loadVideos(latestVideosEndpoint, 'latest-container', 'No se encontraron videos recientes.');
+});
