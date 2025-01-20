@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script defer src="src\assets\projects.js"></script> <!-- Archivo JS separado -->
+  <script defer src="src/assets/projects.js"></script> <!-- Archivo JS separado -->
   <title>Projects - Fall 7ven Times</title>
 </head>
 
@@ -13,15 +13,32 @@
   <!-- Header -->
   <header class="bg-pink-600 text-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center h-16 space-x-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo -->
         <div class="flex-shrink-0">
           <a href="index.html" class="font-bold text-xl">F7</a>
         </div>
-        <nav class="flex space-x-8">
+
+        <!-- Menú para dispositivos grandes -->
+        <nav class="hidden md:flex space-x-8">
           <a href="about.html" class="font-medium text-gray-200 hover:text-gray-100">About</a>
           <a href="projects.html" class="font-medium text-gray-200 hover:text-gray-100">Projects</a>
           <a href="index.html" class="font-medium text-gray-200 hover:text-gray-100">Contact</a>
         </nav>
+
+        <!-- Botón para el menú móvil -->
+        <button id="menu-toggle" class="md:hidden text-white focus:outline-none">
+          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Menú móvil -->
+      <div id="mobile-menu" class="hidden md:hidden space-y-2 mt-4">
+        <a href="about.html" class="block py-2 px-4 text-white hover:bg-pink-400 rounded">About</a>
+        <a href="projects.html" class="block py-2 px-4 text-white hover:bg-pink-400 rounded">Projects</a>
+        <a href="index.html" class="block py-2 px-4 text-white hover:bg-pink-400 rounded">Contact</a>
       </div>
     </div>
   </header>
@@ -54,6 +71,15 @@
       </div>
     </section>
   </main>
+
+  <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  </script>
 </body>
 
 </html>

@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script defer src="src\assets\main.js"></script>
+  <script defer src="src/assets/main.js"></script>
   <style>
     /* Efecto hover: cambia el fondo del enlace */
     .hover-link:hover {
@@ -33,14 +33,29 @@
                     <img class="h-8 w-auto sm:h-10"
                       src="https://cdn.icon-icons.com/icons2/2248/PNG/512/keyboard_f_icon_135464.png" alt="Logo">
                   </a>
+                  <!-- Botón para el menú móvil -->
+                  <button id="menu-toggle" class="md:hidden text-white focus:outline-none">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                  </button>
                 </div>
               </div>
-              <div class="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
+              <!-- Menú principal -->
+              <div id="menu" class="hidden md:flex md:ml-10 md:pr-4 md:space-x-8">
                 <a href="about.html" class="font-medium text-gray-200 hover-link">About</a>
                 <a href="projects.html" class="font-medium text-gray-200 hover-link">Projects</a>
                 <a href="#" class="font-medium text-gray-200 hover-link">Contact</a>
               </div>
             </nav>
+          </div>
+          <!-- Menú móvil -->
+          <div id="mobile-menu" class="hidden bg-pink-600 text-white space-y-2 mt-4 px-4 md:hidden">
+            <a href="about.html" class="block py-2 hover:bg-pink-400 rounded">About</a>
+            <a href="projects.html" class="block py-2 hover:bg-pink-400 rounded">Projects</a>
+            <a href="#" class="block py-2 hover:bg-pink-400 rounded">Contact</a>
           </div>
         </div>
         <main class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
@@ -49,9 +64,10 @@
               <span class="block xl:inline">FALL 7VEN TIMES</span>
               <span class="block text-indigo-300 xl:inline">@fall7ventimes801</span>
             </h1>
-            <p class="mt-3 text-base text-gray-100 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-              Group covers since 2018, we are happy to show you all the talent we have and the love and passion we put into every
-              single cover we made.
+            <p
+              class="mt-3 text-base text-gray-100 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+              Group covers since 2018, we are happy to show you all the talent we have and the love and passion we put
+              into every single cover we made.
             </p>
           </div>
         </main>
@@ -81,22 +97,28 @@
         <!-- Instagram -->
         <a href="https://www.instagram.com/we_on_adrift/" target="_blank" aria-label="Instagram"
           class="hover:text-pink-300 transition duration-300">
-          <img src="https://w7.pngwing.com/pngs/953/528/png-transparent-instagram-icon-logo-desktop-computer-icons-instagram-miscellaneous-text-bing-thumbnail.png" 
-               alt="Instagram" 
-               class="h-12 w-12">
+          <img src="https://w7.pngwing.com/pngs/953/528/png-transparent-instagram-icon-logo-desktop-computer-icons-instagram-miscellaneous-text-bing-thumbnail.png"
+            alt="Instagram" class="h-12 w-12">
         </a>
-      
+
         <!-- YouTube -->
         <a href="https://youtube.com/tu_pagina" target="_blank" aria-label="YouTube"
           class="hover:text-pink-300 transition duration-300">
-          <img src="https://w7.pngwing.com/pngs/936/468/png-transparent-youtube-logo-youtube-logo-computer-icons-subscribe-angle-rectangle-airplane-thumbnail.png" 
-               alt="YouTube" 
-               class="h-14 w-14">
+          <img src="https://w7.pngwing.com/pngs/936/468/png-transparent-youtube-logo-youtube-logo-computer-icons-subscribe-angle-rectangle-airplane-thumbnail.png"
+            alt="YouTube" class="h-14 w-14">
         </a>
       </div>
-      
     </div>
   </div>
+
+  <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  </script>
 </body>
 
 </html>
